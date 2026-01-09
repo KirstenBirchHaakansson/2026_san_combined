@@ -1,0 +1,108 @@
+---
+title: "WKSANDEEL - combine samples"
+author: "Kirsten Birch Håkansson, DTU Aqua"
+date: \today
+output: pdf_document
+---
+  
+```{r setup, include=FALSE}
+library(dplyr)
+library(lubridate)
+library(haven)
+library(ggplot2)
+library(RColorBrewer)
+library(knitr)
+library(tidyverse)
+
+options(scipen = 999)
+knitr::opts_chunk$set(fig.width = 8, fig.height = 8, dpi = 900, dev = 'jpeg', echo = T, warning = F)
+
+years <- c(2023, 2024)
+
+path_dnk <- "Q:/dfad/users/kibi/data/RDB/RDB_in_csv/"
+
+source("Q:/mynd/kibi/functions/function_read_in_rRDB.r")
+
+path_in <- "../data/"
+path_out <- "../data/"
+
+```
+
+```{r}
+# HH
+hh_dnk <- select(read_in_rRDB(yearStart = min(years), yearEnd = max(years), path = path_dnk,
+                          filetype = "HH"), -domain_dvh90119, -domain_maske, -month, -quarter, -gear)
+
+hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F1')] <- "40F1"
+hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F2')] <- "40F2"
+hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F3')] <- "40F3"
+hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F4')] <- "40F4"
+
+hh_nor <- subset(readRDS(paste0(path_in, "rdb_hh_nor.rds")), year %in% years)
+distinct(hh_nor, year)
+
+hh <- rbind(hh_dnk, hh_nor)
+
+saveRDS(hh, paste(path_out, "rdb_hh_all.rds", sep = ""))
+write.csv(hh, paste(path_out, "rdb_hh_all.csv", sep = ""))
+
+# SL
+sl_dnk <- read_in_rRDB(yearStart = min(years), yearEnd = max(years), path = path_dnk,
+                          filetype = "SL")
+
+sl_nor <- subset(readRDS(paste0(path_in, "rdb_sl_nor.rds")), year %in% years)
+distinct(sl_nor, year)
+
+sl <- rbind(sl_dnk, sl_nor)
+
+saveRDS(sl, paste(path_out, "rdb_sl_all.rds", sep = ""))
+write.csv(sl, paste(path_out, "rdb_sl_all.csv", sep = ""))
+
+# HL
+hl_dnk <- read_in_rRDB_sppName(yearStart = min(years), yearEnd = max(years), path = path_dnk,
+                          filetype = "HL", sppName.filter = c("Ammodytes marinus", "Ammodytes tobianus"))
+
+hl_dnk_sum <- summarise(group_by(hl_dnk, year, proj), no_samp = length(unique(paste0(trpCode, staNum))), no_trip = length(unique(trpCode)))
+
+hl_dnk_sum
+
+unique(hl_dnk$sppName)
+hl_nor <- subset(readRDS(paste0(path_in, "rdb_hl_nor.rds")), year %in% years)
+distinct(hl_nor, year)
+
+hl <- rbind(hl_dnk, hl_nor)
+
+saveRDS(hl, paste(path_out, "rdb_hl_all.rds", sep = ""))
+write.csv(hl, paste(path_out, "rdb_hl_all.csv", sep = ""))
+
+
+# CA
+ca_dnk <- read_in_rRDB_sppName(yearStart = min(years), yearEnd = max(years), path = path_dnk,
+                          filetype = "CA", sppName.filter = c("Ammodytes marinus", "Ammodytes tobianus"))
+
+ca_dnk_sum <- summarise(group_by(ca_dnk, year, proj), no_samp = length(unique(paste0(trpCode, staNum))), no_trip = length(unique(trpCode)))
+ca_dnk_sum
+
+unique(ca_dnk$sppName)
+
+ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$rect %in% c('41F1')] <- "40F1"
+ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$rect %in% c('41F2')] <- "40F2"
+ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$rect %in% c('41F3')] <- "40F3"
+ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$ærect %in% c('41F4')] <- "40F4"
+
+ca_nor <- subset(readRDS(paste0(path_in, "rdb_ca_nor.rds")), year %in% years)
+
+distinct(ca_nor, year)
+
+ca <- rbind(ca_dnk, ca_nor)
+
+saveRDS(ca, paste(path_out, "rdb_ca_all.rds", sep = ""))
+write.csv(ca, paste(path_out, "rdb_ca_all.csv", sep = ""))
+
+ca_age <- subset(ca, !(is.na(age)) & sppName == "Ammodytes marinus")
+
+saveRDS(ca_age, paste(path_out, "rdb_ca_all_with_age.rds", sep = ""))
+write.csv(ca_age, paste(path_out, "rdb_ca_all_with_age.csv", sep = ""))
+
+```
+
