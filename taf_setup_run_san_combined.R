@@ -3,7 +3,6 @@ library(icesTAF)
 
 
 # taf.skeleton()
-mkdir("boot/initial/data/submitted_data")
 
 # Data ----
 ## Submitted data ----
@@ -13,7 +12,9 @@ mkdir("boot/initial/data/submitted_data")
 #### Germany
 # No updated to 2023
 
-draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_v2024_DE_2024.xlsx",
+mkdir("boot/initial/data/submitted_data")
+
+draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_v2024_DE_2025.xlsx",
            data.scripts = NULL,
            originator = "Data submitted to HAWG",
            title = "2025 data from Germany. No updates to 2024",
@@ -32,8 +33,8 @@ draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_DNK
            append = T)
 
 #### Sweden
-# No samples in 2024
-draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_SWE_2023-2024.txt",
+# No samples in 2025
+draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_SWE_2024-2025.txt",
            data.scripts = NULL,
            originator = "Data submitted to HAWG",
            title = "Landings data from Sweden",
@@ -71,10 +72,10 @@ draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_SWE
 #            append = T)
 
 #### UK-ENG
-draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_UK_EW_v2024.xlsx",
+draft.data(data.files = "submitted_data/Annex_1_HAWG_sandeel_exchange_format_UK_EW_2025.xlsx",
            data.scripts = NULL,
            originator = "Data submitted to HAWG",
-           title = "Effort data England and Wales",
+           title = "2023 and 2024 landings data from England and Wales",
            file = T,
            append = T)
 
@@ -93,7 +94,7 @@ draft.data(data.files = "preliminary_catch_statistics",
            append = T)
 
 ## Old data and references ----
-### No yearly update should be needed
+### No yearly update should be needed - copy directly from last years repo
 draft.data(data.files = "old_data",
            data.scripts = NULL,
            originator = "HAWG",
@@ -127,6 +128,7 @@ draft.data(data.files = "outputs_from_last_year",
 taf.boot()
 
 # mkdir("data")
+# mkdir("data_scripts")
 # mkdir("model/WKSAND16")
 
 
