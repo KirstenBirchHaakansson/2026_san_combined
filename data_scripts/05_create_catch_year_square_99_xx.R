@@ -12,7 +12,7 @@ path_ref <- "./boot/data/references/"
 
 
 new_timeseries_start <- 99
-new_timeseries_end <- 24
+new_timeseries_end <- 25
 
 dat <- read.csv(paste0(path_in, "catch_year_ctry_month_square_99_", new_timeseries_end, ".csv"), sep = ";")
 names(dat)

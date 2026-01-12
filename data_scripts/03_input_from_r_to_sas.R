@@ -87,8 +87,8 @@ ld$intsq <- ld$rect
 
 unique(ld$intsq)
 no_sq <- subset(ld, intsq == "")
-hist(no_sq$year, breaks = c(2023, 2024))
-hist(ld$year, breaks = c(2023, 2024))
+hist(no_sq$year, breaks = c(2024, 2025))
+hist(ld$year, breaks = c(2024, 2025))
 
 ld$scm <- floor((ld$lenCls/10)*2)/2
 unique(ld$scm)

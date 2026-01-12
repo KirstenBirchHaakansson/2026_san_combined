@@ -6,23 +6,23 @@
 libname age_ssd 'Q:\mynd\Assessement_discard_and_the_like\assessment_scripts\HAWG_sandeel\2022\WKSANDEEL\model\debugging\15_fix_n_samples';
 libname san 'Q:\mynd\Assessement_discard_and_the_like\assessment_scripts\HAWG_sandeel\2022\WKSANDEEL\model\debugging\15_fix_n_samples';
 */
-%let year_working = 2025; *working / output year;
+%let year_working = 2026; *working / output year;
 %let scenario = WKSAND16; *WKSAND16 / WKSAND22a / WKSAND22b / NS;
 %let update = 'partial'; *all|partial;
 
-%let years_to_update_first = 2023;
-%let years_to_update_last = 2024;
+%let years_to_update_first = 2024;
+%let years_to_update_last = 2025;
 %let timeseries_start = 83;
-%let timeseries_end = 24;
+%let timeseries_end = 25;
 
 %let include_old_time_series = 'yes'; *no|yes;
 
-%let path_input = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\data;
-%let path_model = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\model_scripts;
-%let output_folder = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\model;
+%let path_input = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data;
+%let path_model = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model_scripts\WKSAND16;
+%let output_folder = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model;
 %let path_output = &output_folder.\&scenario.;
 
-%let path_ref = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\boot\data\references;
+%let path_ref = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\references;
 
 libname in "&path_input.";
 libname out "&path_output.";
@@ -655,6 +655,11 @@ if year=2024 and icesdiv='IIIa' then totIIIa=47.54; *Added 250107 from square fi
 if year=2024 and icesdiv='IIIa' then DKIIIa=47.54; *Added 250107 from square file;
 if year=2024 and icesdiv='IV' then total=95440.18; *Added 250107 from square file;
 if year=2024 and icesdiv='IV' then denmark=69420.02; *Added 250107 from square file;
+
+if year=2025 and icesdiv='IIIa' then totIIIa=1812.853602; *Added 260109 from square file;
+if year=2025 and icesdiv='IIIa' then DKIIIa=1797.85360182652; *Added 260109 from square file;
+if year=2025 and icesdiv='IV' then total=105038.9404; *Added 260109 from square file;
+if year=2025 and icesdiv='IV' then denmark=77431.1614; *Added 260109 from square file;
 
 if icesdiv='IV' then ton=ton*denmark/dktondiv;
 if icesdiv='IIIa' then ton=ton*DKIIIa/dktondiv;

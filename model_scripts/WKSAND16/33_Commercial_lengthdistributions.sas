@@ -18,25 +18,25 @@ libname san 'Q:\mynd\Assessement_discard_and_the_like\assessment_scripts\HAWG_sa
 
 %let update = 'partial'; *all|partial;
 
-%let years_to_update_first = 2023;
-%let years_to_update_last = 2024;
+%let years_to_update_first = 2024;
+%let years_to_update_last = 2025;
 
 * New time series;
 %let timeseries_start = 83;
-%let timeseries_end = 24;
+%let timeseries_end = 25;
 
 * Old time series;
 %let old_timeseries_start = 83;
-%let old_timeseries_end = 23;
+%let old_timeseries_end = 24;
 
 %let include_old_time_series = 'yes'; *no|yes;
 
-%let path_input = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\data;
-%let path_model = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\model_scripts;
-%let output_folder = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\model;
+%let path_input = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data;
+%let path_model = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model_scripts\WKSAND16;
+%let output_folder = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model;
 %let path_output = &output_folder.\&scenario.;
 
-%let path_ref = Q:\mynd\Assessement_discard_and_the_like\stock_coord_work\san\2025_san_combined\boot\data\references;
+%let path_ref = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\references;
 
 libname in "&path_input.";
 libname out "&path_output.";

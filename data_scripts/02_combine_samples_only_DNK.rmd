@@ -25,6 +25,7 @@ source("Q:/50-radgivning/02-mynd/kibi/functions/function_read_in_rRDB.r")
 
 path_in <- "../data/"
 path_out <- "../data/"
+
 ```
 
 ```{r}
@@ -37,10 +38,11 @@ hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F2')] <- "40F
 hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F3')] <- "40F3"
 hh_dnk$rect[hh_dnk$year %in% c(2014, 2015) & hh_dnk$rect %in% c('41F4')] <- "40F4"
 
-hh_nor <- subset(readRDS(paste0(path_in, "rdb_hh_nor.rds")), year %in% years)
-distinct(hh_nor, year)
-
-hh <- rbind(hh_dnk, hh_nor)
+# hh_nor <- subset(readRDS(paste0(path_in, "rdb_hh_nor.rds")), year %in% years)
+# distinct(hh_nor, year)
+# 
+# hh <- rbind(hh_dnk, hh_nor)
+hh <- hh_dnk
 
 saveRDS(hh, paste(path_out, "rdb_hh_all.rds", sep = ""))
 write.csv(hh, paste(path_out, "rdb_hh_all.csv", sep = ""))
@@ -49,10 +51,12 @@ write.csv(hh, paste(path_out, "rdb_hh_all.csv", sep = ""))
 sl_dnk <- read_in_rRDB(yearStart = min(years), yearEnd = max(years), path = path_dnk,
                           filetype = "SL")
 
-sl_nor <- subset(readRDS(paste0(path_in, "rdb_sl_nor.rds")), year %in% years)
-distinct(sl_nor, year)
+# sl_nor <- subset(readRDS(paste0(path_in, "rdb_sl_nor.rds")), year %in% years)
+# distinct(sl_nor, year)
+# 
+# sl <- rbind(sl_dnk, sl_nor)
 
-sl <- rbind(sl_dnk, sl_nor)
+sl <- sl_dnk
 
 saveRDS(sl, paste(path_out, "rdb_sl_all.rds", sep = ""))
 write.csv(sl, paste(path_out, "rdb_sl_all.csv", sep = ""))
@@ -66,10 +70,11 @@ hl_dnk_sum <- summarise(group_by(hl_dnk, year, proj), no_samp = length(unique(pa
 hl_dnk_sum
 
 unique(hl_dnk$sppName)
-hl_nor <- subset(readRDS(paste0(path_in, "rdb_hl_nor.rds")), year %in% years)
-distinct(hl_nor, year)
-
-hl <- rbind(hl_dnk, hl_nor)
+# hl_nor <- subset(readRDS(paste0(path_in, "rdb_hl_nor.rds")), year %in% years)
+# distinct(hl_nor, year)
+# 
+# hl <- rbind(hl_dnk, hl_nor)
+hl <- hl_dnk
 
 saveRDS(hl, paste(path_out, "rdb_hl_all.rds", sep = ""))
 write.csv(hl, paste(path_out, "rdb_hl_all.csv", sep = ""))
@@ -89,11 +94,12 @@ ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$rect %in% c('41F2')] <- "40F
 ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$rect %in% c('41F3')] <- "40F3"
 ca_dnk$rect[ca_dnk$year %in% c(2014, 2015) & ca_dnk$ærect %in% c('41F4')] <- "40F4"
 
-ca_nor <- subset(readRDS(paste0(path_in, "rdb_ca_nor.rds")), year %in% years)
-
-distinct(ca_nor, year)
-
-ca <- rbind(ca_dnk, ca_nor)
+# ca_nor <- subset(readRDS(paste0(path_in, "rdb_ca_nor.rds")), year %in% years)
+# 
+# distinct(ca_nor, year)
+# 
+# ca <- rbind(ca_dnk, ca_nor)
+ca <- ca_dnk
 
 saveRDS(ca, paste(path_out, "rdb_ca_all.rds", sep = ""))
 write.csv(ca, paste(path_out, "rdb_ca_all.csv", sep = ""))

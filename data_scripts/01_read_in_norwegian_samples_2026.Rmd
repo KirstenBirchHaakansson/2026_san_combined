@@ -1,0 +1,669 @@
+---
+title: "WKSANDEEL - read in Norwegian sample data"
+author: "Kirsten Birch Håkansson, DTU Aqua"
+date: \today
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(lubridate)
+library(haven)
+library(ggplot2)
+library(RColorBrewer)
+library(knitr)
+library(tidyverse)
+
+options(scipen = 999)
+knitr::opts_chunk$set(fig.width = 8, fig.height = 8, dpi = 900, dev = 'jpeg', results = 'asis', echo = F, warning = F)
+
+path_old <- "../boot/data/old_nor_data/"
+path_new <- "../boot/data/"
+path_out <- "../data/"
+
+```
+
+
+# Purpose
+
+Errors was discovered in the Norwegian data submitted to HAWG the last couple of year. Often there were more length classes in the ALK than the length distribution.
+
+The same error seems to be present in all years in the old time series
+
+Norway has submitted data for the whole time period. Newly extracted data back to 2010 and a old extract of data from to 2009.
+
+The two timeries are in different formats
+
+scm: this is cm in norwegian_alk.sas7bdat & norwegian_length_freq.sas7bdat
+
+*OBS - all plots states scm, but it is cm*
+
+stat_unique: stat, ICESsq, month, day - added unique stat number. stat already in the dataset is not unique. 
+
+PP_ar_tx: not added - it is added later in the SAS scripts and it don't really fits in the RDB format.
+
+month: just normal month - it looks like half month and so on are added in the SAS scripts and it don't really fits in the RDB format.
+
+RDB format:
+
+This is not a full set of CS files, since submitted info are scarce - an HH, SL, HL and CA file is outputtet with a lot of NA's
+
+**TODO**
+
+Check for duplicated ld's (not in 2018). When runnning a distinct on HL, then around 1500 rows are deleted.
+
+# Lengths
+## Read in data in old and new format, and combine
+
+
+```{r}
+
+# Data from 2024 - assessment 2025
+ld_new_02 <- read.csv(paste0(path_new, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table2.csv"))
+
+ld_new_02$description <- "LD - Data extracted in 2025"
+
+names(ld_new_02)
+
+length(unique(ld_new_02$SampleId))
+ld_new_02$SampleId <- paste(ld_new_02$year, ld_new_02$SampleId, sep = "-")
+
+length(unique(ld_new_02$SampleId))
+length(unique(paste(ld_new_02$SampleId)))
+length(unique(paste(ld_new_02$year, ld_new_02$SampleId, ld_new_02$samplingDate)))
+
+ld_mw_02 <- subset(ld_new_02, !(is.na(weightAtLengthClass)))
+
+unique(ld_new_02$year)
+
+# Data from 2023 - assessment 2024
+ld_new_01 <- read.csv(paste0(path_old, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table2_2023.csv"))
+
+ld_new_01$description <- "LD - Data extracted in 2024"
+
+names(ld_new_01)
+
+length(unique(ld_new_01$SampleId))
+ld_new_01$SampleId <- paste(ld_new_01$year, ld_new_01$SampleId, sep = "-")
+
+length(unique(ld_new_01$SampleId))
+length(unique(paste(ld_new_01$SampleId)))
+length(unique(paste(ld_new_01$year, ld_new_01$SampleId, ld_new_01$samplingDate)))
+
+ld_mw_01 <- subset(ld_new_01, !(is.na(weightAtLengthClass)))
+
+unique(ld_new_01$year)
+
+# Data from 2022 - assessment 2023
+ld_new_0 <- read.csv(paste0(path_old, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table2_2022.csv"))
+
+ld_new_0$description <- "LD - Data extracted in 2023"
+
+names(ld_new_0)
+
+length(unique(ld_new_0$SampleId))
+ld_new_0$SampleId <- paste(ld_new_0$year, ld_new_0$SampleId, sep = "-")
+
+length(unique(ld_new_0$SampleId))
+length(unique(paste(ld_new_0$SampleId)))
+length(unique(paste(ld_new_0$year, ld_new_0$SampleId, ld_new_0$samplingDate)))
+
+ld_mw_0 <- subset(ld_new_0, !(is.na(weightAtLengthClass)))
+
+unique(ld_new_0$year)
+
+
+# Data from 2007-2021 benchmark data
+ld_new <- read.csv(paste0(path_old, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table2_2007_2021.csv"))
+
+ld_new$description <- "LD - Data extracted in 2022"
+
+names(ld_new)
+
+length(unique(ld_new$SampleId))
+ld_new$SampleId <- paste(ld_new$year, ld_new$SampleId, sep = "-")
+
+length(unique(ld_new$SampleId))
+length(unique(paste(ld_new$SampleId)))
+length(unique(paste(ld_new$year, ld_new$SampleId, ld_new$samplingDate)))
+
+ld_mw <- subset(ld_new, !(is.na(weightAtLengthClass)))
+
+unique(ld_new$year)
+
+# combine new
+
+ld_mw <- rbind(ld_mw, ld_mw_0, ld_mw_01, ld_mw_02)
+ld_new <- rbind(ld_new, ld_new_0, ld_new_01, ld_new_02)
+
+# Old
+ld_old_ld <-
+  read.delim(paste(path_old, "Norwegian_sandeel_length_freq_79_09.txt", sep = ""))
+
+ld_old_alk <-
+  read.delim(paste(path_old, "Norwegian_ALK_data_97_09.txt", sep = ""))
+
+names(ld_old_ld)
+names(ld_old_alk)
+
+ld_old <- bind_rows(ld_old_ld, ld_old_alk)
+
+ld_old$date <-
+  as.Date(str_pad(as.character(ld_old$date), 6, "left", 0), "%y%m%d")
+
+unique(ld_old$date)
+str(ld_old)
+
+# Transform into new format
+
+ld_old$vesselFlagCountry <- "NO"
+ld_old$year <- year(ld_old$date)
+
+plot(ld_old$year, ld_old$date)
+
+ld_old$SampleId <-
+  paste(ld_old$year,
+        ld_old$Station,
+        ld_old$trip,
+        ld_old$Rectangle,
+        ld_old$date,
+        sep = "-")
+
+# Test uniqueness of sampledId
+length(unique(paste0(ld_old$Station, ld_old$trip)))
+length(unique(ld_old$SampleId))
+unique(ld_old$Station)
+unique(ld_old$trip)
+
+ld_old$samplingDate <- ld_old$date
+ld_old$area[ld_old$Area == "N"] <- "27.4"
+ld_old$area[ld_old$Area == "S"] <- "27.3.a.20"
+
+
+unique(ld_old$area)
+distinct(ld_old, area, Area)
+
+ld_old$statisticalRectangle <- ld_old$Rectangle
+
+unique(ld_old$Rectangle)
+
+ld_old$exclusiveEconomicZone <- NA
+ld_old$lengthClass <- (ld_old$length_SCM / 2) * 10
+
+hist(ld_old$length_SCM, )  # original length
+hist(ld_old$lengthClass) # length in mm
+
+ld_old$numberAtLengthClass <- ld_old$Total_number_length_class
+ld_old$weightAtLengthClass <- ld_old$Total_weight_length_class
+
+ld_old$description <- "LD - Data extracted in the past"
+
+# Select only needed fields
+
+unique(ld_old$year)
+unique(ld_new$year)
+
+ld_old_1 <- select(ld_old, one_of(names(ld_new)))
+ld_old_2 <- subset(ld_old_1, year < min(ld_new$year))
+
+ld <- rbind(ld_old_2, ld_new)
+distinct(ld, year, description)
+
+ld_sum <- summarise(group_by(ld, year), no_fish = sum(numberAtLengthClass, na.rm = T),
+                                                      no_samples = length(unique(SampleId)))
+
+kable(ld_sum)
+```
+
+
+# ALK
+## Read in data in old and new format, and combine
+
+```{r}
+
+# Data from 2024 - assessment 2025
+
+alk_new_02 <- read.csv(paste0(path_new, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table3.csv"))
+
+alk_new_02$description <- "ALK - Data extracted in 2025"
+
+alk_new_02$plusGrp <- NA
+
+alk_new_02$SampleId <- paste(alk_new_02$year, alk_new_02$SampleId, sep = "-")
+
+length(unique(alk_new_02$SampleId))
+length(unique(paste(alk_new_02$year, alk_new_02$SampleId)))
+length(unique(paste(alk_new_02$year, alk_new_02$SampleId, alk_new_02$samplingDate)))
+
+# Data from 2023 - assessment 2024
+
+alk_new_01 <- read.csv(paste0(path_old, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table3_2023.csv"))
+
+alk_new_01$description <- "ALK - Data extracted in 2024"
+
+alk_new_01$plusGrp <- NA
+
+alk_new_01$SampleId <- paste(alk_new_01$year, alk_new_01$SampleId, sep = "-")
+
+length(unique(alk_new_01$SampleId))
+length(unique(paste(alk_new_01$year, alk_new_01$SampleId)))
+length(unique(paste(alk_new_01$year, alk_new_01$SampleId, alk_new_01$samplingDate)))
+
+# Data from 2022 - assessment 2023
+
+alk_new_0 <- read.csv(paste0(path_old, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table3_2022.csv"))
+
+alk_new_0$description <- "ALK - Data extracted in 2023"
+
+alk_new_0$plusGrp <- NA
+
+alk_new_0$SampleId <- paste(alk_new_0$year, alk_new_0$SampleId, sep = "-")
+
+length(unique(alk_new_0$SampleId))
+length(unique(paste(alk_new_0$year, alk_new_0$SampleId)))
+length(unique(paste(alk_new_0$year, alk_new_0$SampleId, alk_new_0$samplingDate)))
+
+# Data from 2007-2021 benchmark data
+
+alk_new <- read.csv(paste0(path_old, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table3_2007_2021.csv"))
+
+alk_new$description <- "ALK - Data extracted in 2022"
+
+alk_new$plusGrp <- NA
+
+alk_new$SampleId <- paste(alk_new$year, alk_new$SampleId, sep = "-")
+
+length(unique(alk_new$SampleId))
+length(unique(paste(alk_new$year, alk_new$SampleId)))
+length(unique(paste(alk_new$year, alk_new$SampleId, alk_new$samplingDate)))
+
+# combine new
+
+alk_new <- rbind(alk_new, alk_new_0, alk_new_01, alk_new_02)
+
+# Old
+
+alk_old <-
+  read.delim(paste(path_old, "Norwegian_ALK_data_97_09.txt", sep = ""))
+
+alk_old$date <-
+  as.Date(str_pad(as.character(alk_old$date), 6, "left", 0), "%y%m%d")
+
+names(alk_old)
+
+# Transform into new format
+
+alk_old$vesselFlagCountry <- "NO"
+alk_old$year <- year(alk_old$date)
+
+plot(alk_old$year, alk_old$date)
+
+alk_old$SampleId <-
+  paste(alk_old$year,
+        alk_old$Station,
+        alk_old$trip,
+        alk_old$Rectangle,
+        alk_old$date,
+        sep = "-")
+
+# Test uniqueness of sampledId
+length(unique(paste0(alk_old$Station, alk_old$trip)))
+length(unique(alk_old$SampleId))
+unique(alk_old$Station)
+unique(alk_old$trip)
+
+alk_old$samplingDate <- alk_old$date
+alk_old$area[alk_old$Area == "N"] <- "27.4"
+alk_old$area[alk_old$Area == "S"] <- "27.3.a.20"
+
+unique(alk_old$area)
+distinct(alk_old, area, Area)
+
+alk_old$statisticalRectangle <- alk_old$Rectangle
+
+unique(alk_old$Rectangle)
+
+alk_old$exclusiveEconomicZone <- NA
+alk_old$fishID <- NA
+alk_old$lengthClass <- (alk_old$length_SCM / 2) * 10
+
+hist(alk_old$length_SCM)  # original length
+hist(alk_old$lengthClass) # length in mm
+
+alk_old$weight <- alk_old$Mean_weight
+
+plot(alk_old$lengthClass, alk_old$weight)
+plot(alk_new$lengthClass, alk_new$weight)
+
+alk_old$a0 <- alk_old$Age0
+alk_old$a1 <- alk_old$Age1
+alk_old$a2 <- alk_old$Age2
+alk_old$a3 <- alk_old$Age3
+alk_old$a4 <- alk_old$Age4.
+alk_old$plusGrp <- 4
+
+alk_old$description <- "ALK - Data extracted in the past"
+
+alk_old_t <-
+  filter(mutate(
+    gather(alk_old, key = age, value = antal, a0, a1, a2, a3, a4),
+    age = substr(age, 2, 2)
+  ), antal != 0)
+
+# Test transpose
+
+sum(alk_old_t$antal, na.rm = T)
+sum(alk_old$a0 + alk_old$a1 + alk_old$a2 + alk_old$a3 + alk_old$a4)
+
+# Select only needed fields
+
+alk_old_t_1 <- select(alk_old_t, one_of(names(alk_new)), antal)
+
+# Add a line per fish
+alk_old_t_2 <-
+  alk_old_t_1[rep(row.names(alk_old_t_1), alk_old_t_1$antal),]
+
+nrow(alk_old_t_2)
+
+alk_old_done <- select(alk_old_t_2, -antal)
+
+# Add weights from LD
+
+ld_mw$weight <- ld_mw$weightAtLengthClass/ld_mw$numberAtLengthClass
+ld_mw$fishID <- NA
+ld_mw$age <- NA
+ld_mw$plusGrp <- NA
+
+ld_mw_1 <-
+  ld_mw[rep(row.names(ld_mw), ld_mw$numberAtLengthClass),]
+
+sum(ld_mw$numberAtLengthClass)
+nrow(ld_mw_1)
+
+ld_mw_2 <- select(ld_mw_1, one_of(names(alk_new)))
+
+# Combine
+unique(alk_old_done$year)
+unique(alk_new$year)
+unique(ld_mw_2$year)
+
+alk_old_done_1 <- subset(alk_old_done, year < min(alk_new$year))
+
+alk <- rbind(alk_old_done_1, alk_new, ld_mw_2)
+
+names(alk)
+
+distinct(alk, year, description)
+
+alk_sum <- summarise(group_by(alk, year), no_fish = length(fishID),
+                                                      no_samples = length(unique(SampleId)))
+
+kable(alk_sum)
+```
+
+
+```{r}
+ggplot(alk, aes(x = year, fill = description)) +
+  geom_histogram(binwidth = 1)
+
+```
+
+
+```{r}
+ggplot(ld, aes(x = year, fill = description)) +
+  geom_histogram(binwidth = 1)
+
+```
+
+
+```{r}
+ggplot(alk, aes(x = lengthClass, y = weight, col = description)) +
+  geom_point()
+```
+
+```{r}
+ggplot(alk, aes(x = lengthClass, col = description)) +
+  geom_histogram()
+
+```
+
+
+```{r}
+ggplot(alk, aes(x = month(samplingDate), col = description)) +
+  geom_histogram()
+
+```
+
+# Output data in RDB format
+
+```{r}
+
+# HH
+
+hh_names <- select(read.csv(paste("Q:/dfad/users/kibi/data/RDB/RDB_in_csv/rHH_2019.csv", sep = "")), -domain_dvh90119, -gear, -domain_maske)
+hh_names$trpCode <- as.character(hh_names$trpCode)
+hh_names$staNum <- as.character(hh_names$staNum)
+hh_names$date <- as.Date(hh_names$date)
+
+length(unique(alk$SampleId))
+
+alk_hh <- select(alk, year, samplingDate, SampleId, area,
+    statisticalRectangle)
+
+ld_hh <- select(ld, year, samplingDate, SampleId, area,
+    statisticalRectangle)
+
+dat_hh <- bind_rows(alk_hh, ld_hh)
+
+hh_nor <-
+  distinct(
+    dat_hh,
+    recType = "HH",
+    sampType = NA,
+    landCtry = NA,
+    vslFlgCtry = "NOR",
+    year = year,
+    quarter = quarter(samplingDate),
+    month = month(samplingDate),
+    proj = "NOR-sandeel",
+    trpCode = SampleId,
+    staNum = SampleId,
+    foVal = "V",
+    aggLev = NA,
+    catReg = NA,
+    sppReg = NA,
+    date = samplingDate,
+    time = NA,
+    foDur = NA,
+    latIni = NA,
+    lonIni = NA,
+    latFin = NA,
+    lonFin = NA,
+    area = area,
+    rect = statisticalRectangle,
+    subRect = NA,
+    foDep = NA,
+    waterDep = NA,
+    foCatNat = NA,
+    foCatEu5 = NA,
+    foCatEu6 = NA,
+    meshSize = NA,
+    selDev = NA,
+    meshSizeSelDev = NA
+  )
+
+hh_nor_1 <- select(hh_nor, one_of(names(hh_names)))
+hh_nor_2 <- filter(bind_rows(hh_names, distinct(hh_nor_1)), is.na(sampType))
+
+saveRDS(hh_nor_2, paste(path_out, "rdb_hh_nor.rds", sep = ""))
+write.csv(hh_nor_2, paste(path_out, "rdb_hh_nor.csv", sep = ""))
+
+# SL
+sl_names <- read.csv(paste("Q:/dfad/users/kibi/data/RDB/RDB_in_csv/rSL_2019.csv", sep = ""))
+sl_names$trpCode <- as.character(sl_names$trpCode)
+sl_names$staNum <- as.character(sl_names$staNum)
+
+sl_nor <-
+  mutate(
+    ld,
+    recType = "SL",
+    sampType = NA,
+    landCtry = NA,
+    vslFlgCtry = "NOR",
+    year = year,
+    quarter = quarter(samplingDate),
+    month = month(samplingDate),
+    proj = "NOR-sandeel",
+    trpCode = SampleId,
+    staNum = SampleId,
+    sppName = "Ammodytes marinus",
+    catchCat = NA,
+    landCat = NA,
+    commCatScl = NA,
+    commCat = NA,
+    subSampCat = NA,
+    sex = NA,
+    wt = NA,
+    subSampWt = NA,
+    lenCode = "scm",
+    sampNo = NA,
+    subSampNo = NA,
+    wt_treatment = NA,
+    subSampWt_treatment =NA
+  )
+
+sl_nor_1 <- select(sl_nor, one_of(names(sl_names)))
+sl_nor_2 <- filter(bind_rows(sl_names, distinct(sl_nor_1)), is.na(sampType))
+
+saveRDS(sl_nor_2, paste(path_out, "rdb_sl_nor.rds", sep = ""))
+write.csv(sl_nor_2, paste(path_out, "rdb_sl_nor.csv", sep = ""))
+
+#HL
+hl_names <- read.csv(paste("Q:/dfad/users/kibi/data/RDB/RDB_in_csv/rHL_2019.csv", sep = ""))
+hl_names$trpCode <- as.character(hl_names$trpCode)
+hl_names$staNum <- as.character(hl_names$staNum)
+
+hl_nor <-
+  mutate(
+    ld,
+    recType = "HL",
+    sampType = NA,
+    landCtry = NA,
+    vslFlgCtry = "NOR",
+    year = year,
+    quarter = quarter(samplingDate),
+    month = month(samplingDate),
+    proj = "NOR-sandeel",
+    trpCode = SampleId,
+    staNum = SampleId,
+    sppName = "Ammodytes marinus",
+    catchCat = NA,
+    landCat = NA,
+    commCatScl = NA,
+    commCat = NA,
+    subSampCat = NA,
+    sex = NA,
+    indSex = NA,
+    lenCls = lengthClass,
+    lenNum = numberAtLengthClass,
+    sampLenNum = numberAtLengthClass
+  )
+
+hl_nor_1 <- select(hl_nor, one_of(names(hl_names)))
+hl_nor_2 <- filter(bind_rows(hl_names, hl_nor_1), is.na(sampType))
+
+saveRDS(hl_nor_2, paste(path_out, "rdb_hl_nor.rds", sep = ""))
+write.csv(hl_nor_2, paste(path_out, "rdb_hl_nor.csv", sep = ""))
+
+
+# CA
+
+ca_names <-
+  read.csv(paste("Q:/dfad/users/kibi/data/RDB/RDB_in_csv/rCA_2019.csv", sep = ""),
+           nrow = 5000)
+ca_names$trpCode <- as.character(ca_names$trpCode)
+ca_names$staNum <- as.character(ca_names$staNum)
+
+rownames(alk) = seq(length=nrow(alk))
+
+ca_nor <-
+  mutate(
+    alk,
+    recType = "CA",
+    sampType = NA,
+    landCtry = NA,
+    vslFlgCtry = "NOR",
+    year = year,
+    quarter = quarter(samplingDate),
+    month = month(samplingDate),
+    proj = "NOR-sandeel",
+    trpCode = SampleId,
+    staNum = SampleId,
+    area = area,
+    rect = statisticalRectangle,
+    subRect = NA,
+    stock = NA,
+    sppName = "Ammodytes marinus",
+    catchCat = NA,
+    landCat = NA,
+    commCatScl = NA,
+    commCat = NA,
+    sex = NA,
+    lenCls = lengthClass,
+    age = as.numeric(age),
+    fishId = as.numeric(row.names(alk)),
+    lenCode = "scm",
+    ageMeth = NA,
+    plusGrp = as.character(plusGrp),
+    otoWt = NA,
+    otoSide = NA,
+    indWt = weight,
+    matMeth = NA,
+    matScale = NA,
+    matStage = NA,
+    otolithReadingRemark = NA
+  )
+
+ca_nor_1 <- select(ca_nor, one_of(names(ca_names)))
+ca_nor_2 <- filter(bind_rows(ca_names, ca_nor_1), is.na(sampType))
+
+saveRDS(ca_nor_2, paste(path_out, "rdb_ca_nor.rds", sep = ""))
+write.csv(ca_nor_2, paste(path_out, "rdb_ca_nor.csv", sep = ""))
+
+# Testing join
+
+hhhl <- left_join(hl_nor_2, select(hh_nor_2, -recType, -sampType))
+
+hhhl_1 <- inner_join(hl_nor_2, select(hh_nor_2, -recType, -sampType))
+
+hl_ca <- left_join(hl_nor_2, select(ca_nor_2, -recType, -sampType))
+hl_ca_1 <- inner_join(hl_nor_2, select(ca_nor_2, -recType, -sampType))
+
+```
+
+```{r}
+
+
+alk_2006 <- subset(alk, year == 2006)
+length(unique(alk_2006$SampleId))
+length(alk_2006$SampleId)
+
+
+ld_2006 <- subset(ld, year == 2006)
+length(unique(ld_2006$SampleId))
+length(ld_2006$SampleId)
+sum(ld_2006$numberAtLengthClass)
+
+
+alk_2010_a <- subset(alk, year == 2010 & !(is.na(age)))
+length(unique(alk_2010_a$SampleId))
+
+ld_2010 <- subset(ld, year == 2010)
+length(unique(ld_2010$SampleId))
+
+alk_2010 <- subset(alk, year == 2010)
+length(unique(alk_2010$SampleId))
+
+
+```
+

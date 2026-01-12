@@ -11,10 +11,10 @@ path_in_last_year <- "./boot/data/outputs_from_last_year/"
 path_out <- "./data/"
 path_ref <- "./boot/data/references/"
 
-old_timeseries_end <- 23
+old_timeseries_end <- 24
 
 new_timeseries_start <- 99
-new_timeseries_end <- 24
+new_timeseries_end <- 25
 
 
 area_file <- read.csv(paste0(path_ref, "ICES_StatRec_mapto_ICES_Areas 2021.csv"))
@@ -35,7 +35,7 @@ unique(old$update_date)
 
 # GER ----
 
-de_new <- readxl::read_xlsx(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_v2024_DE_2024.xlsx"))
+de_new <- readxl::read_xlsx(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_v2024_DE_2025.xlsx"))
 head(de_new)
 de_new <- de_new[c(2:nrow(de_new)), ]
 unique(de_new$year)
@@ -54,7 +54,7 @@ old <- subset(old, !(id %in% de_out$id))
 old <- bind_rows(old, de_new)
 
 # ENG ----
-uk_new <- readxl::read_xlsx(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_UK_EW_v2024.xlsx"))
+uk_new <- readxl::read_xlsx(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_UK_EW_2025.xlsx"))
 head(uk_new)
 uk_new <- uk_new[c(2:nrow(uk_new)), ]
 unique(uk_new$year)
@@ -74,7 +74,7 @@ old <- bind_rows(old, uk_new)
 
 
 # SWE ----
-se_new <- read.delim(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_SWE_2023-2024.txt"))
+se_new <- read.delim(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_SWE_2024-2025.txt"))
 head(se_new)
 unique(se_new$year)
 se_new$weight <- as.numeric(se_new$weight)
@@ -126,35 +126,41 @@ old <- subset(old, !(id %in% dk_out$id))
 old <- bind_rows(old, dk_new)
 
 # NOR ----
-no_new <- read.csv(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table1.csv"))
-head(no_new)
-unique(no_new$year)
-no_new$weight <- as.numeric(no_new$weight)
-
-unique(no_new$area)
-no_new$area[no_new$area == "27.4b"] <- "27.4.b"
-
-no_new$vesselFlagCountry <- "NOR"
-no_new$Country <- no_new$vesselFlagCountry
-no_new$Year <- no_new$year
-no_new$Month <- no_new$month
-no_new$Square <- no_new$statisticalRectangle
-no_new$Weight <- no_new$weight/1000
-
-
-unique(no_new$statisticalRectangle)
-unique(no_new$vesselFlagCountry)
-
-no_out <- subset(old, Country == "NOR" & (Year %in% no_new$year))
-old <- subset(old, !(id %in% no_out$id))
-
-old <- bind_rows(old, no_new)
+# no_new <- read.csv(paste0(path_in_this_year, "Annex_1_HAWG_sandeel_exchange_format_Norway_Table1.csv"))
+# head(no_new)
+# unique(no_new$year)
+# no_new$weight <- as.numeric(no_new$weight)
+# 
+# unique(no_new$area)
+# no_new$area[no_new$area == "27.4b"] <- "27.4.b"
+# 
+# no_new$vesselFlagCountry <- "NOR"
+# no_new$Country <- no_new$vesselFlagCountry
+# no_new$Year <- no_new$year
+# no_new$Month <- no_new$month
+# no_new$Square <- no_new$statisticalRectangle
+# no_new$Weight <- no_new$weight/1000
+# 
+# 
+# unique(no_new$statisticalRectangle)
+# unique(no_new$vesselFlagCountry)
+# 
+# no_out <- subset(old, Country == "NOR" & (Year %in% no_new$year))
+# old <- subset(old, !(id %in% no_out$id))
+# 
+# old <- bind_rows(old, no_new)
 
 # Test 2024 ----
 
 dat_2024 <- subset(old, Year == 2024 & area %in% c("27.4.c", "27.4b", "27.4.b", "27.4.a", "27.3.a.20", "27.3.a.21"))
 
-dat_2024_sum <- summarise(group_by(dat_2024, Year, Country), w = sum(weight, na.rm = T))
+dat_2024_sum <- summarise(group_by(dat_2024, Year, Country), w = sum(Weight, na.rm = T))
+
+# Test 2025 ----
+
+dat_2025 <- subset(old, Year == 2025 & area %in% c("27.4.c", "27.4b", "27.4.b", "27.4.a", "27.3.a.20", "27.3.a.21"))
+
+dat_2025_sum <- summarise(group_by(dat_2025, Year, Country), w = sum(Weight, na.rm = T))
 
 # Combine
 
