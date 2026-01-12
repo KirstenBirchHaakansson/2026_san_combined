@@ -651,10 +651,10 @@ if year=2023 and icesdiv='IIIa' then DKIIIa=2171.11; *Updated 250107 from Prelim
 if year=2023 and icesdiv='IV' then total=161515.2673; *Updated 250107 from PreliminaryCatchesFor2022;
 if year=2023 and icesdiv='IV' then denmark=116017; *Updated 250107 from PreliminaryCatchesFor2022;
 
-if year=2024 and icesdiv='IIIa' then totIIIa=47.54; *Added 250107 from square file;
-if year=2024 and icesdiv='IIIa' then DKIIIa=47.54; *Added 250107 from square file;
-if year=2024 and icesdiv='IV' then total=95440.18; *Added 250107 from square file;
-if year=2024 and icesdiv='IV' then denmark=69420.02; *Added 250107 from square file;
+if year=2024 and icesdiv='IIIa' then totIIIa=47.54; *Updated 260112 from PreliminaryCatchesFor2024;
+if year=2024 and icesdiv='IIIa' then DKIIIa=47.54; *Updated 260112 from PreliminaryCatchesFor2024;
+if year=2024 and icesdiv='IV' then total=95816.5092; *Updated 260112 from PreliminaryCatchesFor2024;
+if year=2024 and icesdiv='IV' then denmark=69419.99; *Updated 260112 from PreliminaryCatchesFor2024;
 
 if year=2025 and icesdiv='IIIa' then totIIIa=1812.853602; *Added 260109 from square file;
 if year=2025 and icesdiv='IIIa' then DKIIIa=1797.85360182652; *Added 260109 from square file;
