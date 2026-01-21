@@ -659,7 +659,7 @@ if year=2024 and icesdiv='IV' then denmark=69419.99; *Updated 260112 from Prelim
 if year=2025 and icesdiv='IIIa' then totIIIa=1812.853602; *Added 260109 from square file;
 if year=2025 and icesdiv='IIIa' then DKIIIa=1797.85360182652; *Added 260109 from square file;
 if year=2025 and icesdiv='IV' then total=105038.9404; *Added 260109 from square file;
-if year=2025 and icesdiv='IV' then denmark=77431.1614; *Added 260109 from square file;
+if year=2025 and icesdiv='IV' then denmark=77431.1614; *Added 260109 from square file; 
 
 if icesdiv='IV' then ton=ton*denmark/dktondiv;
 if icesdiv='IIIa' then ton=ton*DKIIIa/dktondiv;
