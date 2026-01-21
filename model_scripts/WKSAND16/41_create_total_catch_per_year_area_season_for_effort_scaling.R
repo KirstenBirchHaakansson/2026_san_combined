@@ -5,11 +5,11 @@ library(dplyr)
 
 path_common <- "./model/"
 
-scenario <- "area16EUUK"
+scenario <- "WKSAND16"
 
 path <- paste0(path_common, scenario, "/")
 
-dat <- read.csv(paste0(path, "catch_in_numbers_and_mw_83_24", ".csv"))
+dat <- read.csv(paste0(path, "catch_in_numbers_and_mw_83_25", ".csv"))
 
 names(dat)
 
