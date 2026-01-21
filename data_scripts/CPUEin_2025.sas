@@ -3,7 +3,9 @@
 **********************************************************;
 
 /**/
-libname san 'c:\ar\sas\sandeel';
+%let path_dnk_effort 'C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\Effort';
+%let path_nor_effort = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\Effort;
+libname path_out 'C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data';
 
 %macro indl(yy);
 
@@ -11,7 +13,7 @@ data c&yy.;
    LENGTH fid $ 8 lognr $ 10 gear $ 3 grt_int $ 9 fvd $ 4 ICES_txt $ 4
           sttime $ 14 endtime $ 14  spec $ 3;
 
- 	  infile "Q:\20-forskning\20-dfad\users\arin\data\Tobis\tbs_&yy._logdata.csv" 	  delimiter=',' 
+ 	  infile "&path_dnk_effort.\tbs_&yy._logdata.csv" 	  delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 
 
@@ -119,12 +121,13 @@ run;
 %indl(22);
 %indl(23);
 %indl(24);
+%indl(25);
 
 
-data cpue_2024;
+data path_out.cpue_2025;
 set c82 c83 c84 c85 c86 c87 c88 c89 c90 c91 c92 c93 
 c94 c95 c96 c97 c98 c99 c00 c01 c02 c03 c04 c05 c06 c07 c08 c09 c10 c11 
-c12 c13 c14 c15 c16 c17 c18 c19 c20 c21 c22 c23 c24;
+c12 c13 c14 c15 c16 c17 c18 c19 c20 c21 c22 c23 c24 c25;
 country='   ';
 country='DEN';
  
@@ -134,35 +137,35 @@ run;
 ****************Norwegian CPUE input***********;
 
 data ny11;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2011.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2011.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
 
 run;
 data ny12;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2012.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2012.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
 
 run;
 data ny13;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2013.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2013.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
 
 run;
 data ny14;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2014.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2014.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
 
 run;
 data ny15;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2015.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2015.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -170,7 +173,7 @@ input    date $ ices_txt $ cpue grt_int $ ;
 run;
 
 data ny16;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2016.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2016.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -178,7 +181,7 @@ input    date $ ices_txt $ cpue grt_int $ ;
 run;
 
 data ny17;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2017.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2017.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -186,7 +189,7 @@ input    date $ ices_txt $ cpue grt_int $ ;
 run;
 
 data ny18;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2018.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2018.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -195,7 +198,7 @@ run;
 
 
 data ny19;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2019.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2019.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -204,7 +207,7 @@ run;
 
 
 data ny20;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2020.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2020.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -213,7 +216,7 @@ run;
 
 
 data ny21;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2021.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2021.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -221,7 +224,7 @@ input    date $ ices_txt $ cpue grt_int $ ;
 run;
 
 data ny22;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2022.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2022.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -230,7 +233,7 @@ run;
 
 
 data ny23;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2023.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2023.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -239,7 +242,7 @@ run;
 
 
 data ny24;
-infile 'c:\ar\tobis\imr\catch_byVessel_byDay_2024.csv' delimiter=',' 
+infile '&path_nor_effort.\catch_byVessel_byDay_2024.csv' delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
 informat date $10. ices_txt $4. grt_int $ 9.  ;      
 input    date $ ices_txt $ cpue grt_int $ ;
@@ -247,7 +250,7 @@ input    date $ ices_txt $ cpue grt_int $ ;
 run;
 
 
-data norway_cpue_ny;
+data path_out.norway_cpue_ny;
 set ny11 ny12 ny13 ny14 ny15 ny16 ny17 ny18 ny19 ny20 ny21 ny22 ny23 ny24;
 country='   ';
 country='NOR';

@@ -125,6 +125,16 @@ draft.data(data.files = "outputs_from_last_year",
            file = T,
            append = T)
 
+
+## Effort files ----
+### Yearly update needed. Copy all data from last repo and add updated data for the last 2 years
+draft.data(data.files = "Effort",
+           data.scripts = NULL,
+           originator = "HAWG",
+           title = "Effort data",
+           file = T,
+           append = T)
+
 taf.boot()
 
 # mkdir("data")
