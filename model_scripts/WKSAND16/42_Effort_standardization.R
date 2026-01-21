@@ -14,7 +14,7 @@ dandatdir = "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_
 #location of Norwegian files including catch_byVessel_byDay_2011.csv
 nordatdir = "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/boot/data/Effort/" 
 
-path_common <- "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/"
+path_common <- "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/model/"
 
 scenario <- "WKSAND16"
 
