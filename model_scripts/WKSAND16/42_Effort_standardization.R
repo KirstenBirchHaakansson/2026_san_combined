@@ -2,26 +2,26 @@
 Sys.getlocale() # This only runs if not Danish LC-TIME due to month e.g. st_date = as.POSIXlt(sttime, format="%d%B%y:%H:%M")
 
 
-version <- "2024"
+version <- "2025"
 
 season <- 2
 
 ncores=8 #number of cores to use on this computer for parallel computing
 
 #location of Danish files including tbs_99_logdata.csv
-dandatdir = "Q:/dfad/users/kibi/data/assessement_discard_and_the_like/HAWG_sandeel/2025/" 
+dandatdir = "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/boot/data/Effort/" 
 
 #location of Norwegian files including catch_byVessel_byDay_2011.csv
-nordatdir = "Q:/dfad/users/kibi/data/assessement_discard_and_the_like/HAWG_sandeel/2025/" 
+nordatdir = "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/boot/data/Effort/" 
 
-path_common <- "Q:/mynd/Assessement_discard_and_the_like/stock_coord_work/san/2025_san_combined/model/"
+path_common <- "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/"
 
 scenario <- "WKSAND16"
 
 outputdir <- path_common
 
 # last year of Danish data
-danlastyear=24 #last 2 digits. 21 means 2021.
+danlastyear=25 #last 2 digits. 21 means 2021.
 
 #last year of Norwegian data
 norlastyear = 2024 # 4 digits
@@ -29,7 +29,7 @@ norlastyear = 2024 # 4 digits
 #file names (without .txt) that define which squares belong to which areas
 #note "99A9" and ".A9" are excluded in the processing below
 
-areadir <- "Q:/mynd/Assessement_discard_and_the_like/stock_coord_work/san/2025_san_combined/boot/data/references/"
+areadir <- "C:/Users/kibi/OneDrive - Danmarks Tekniske Universitet/stock_coord_work/san/2026_san_combined/boot/data/references/"
 #areafiles=c("square_to_areas_2015", "square_to_areas_test")
 areafiles=c("square_to_sandeel_areas_WKSAND16")
 # ,
