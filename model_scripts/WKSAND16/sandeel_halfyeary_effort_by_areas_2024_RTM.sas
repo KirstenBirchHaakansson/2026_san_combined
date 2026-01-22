@@ -330,7 +330,7 @@ run;
 
 
 proc export data=RTM_2023_area16
-   outfile='c:\ar\tobis\logbooks\RTM_2023_area16.csv'
+   outfile="&path_output.\RTM_2025_area16.csv"
    dbms=csv 
    replace;
 run;
