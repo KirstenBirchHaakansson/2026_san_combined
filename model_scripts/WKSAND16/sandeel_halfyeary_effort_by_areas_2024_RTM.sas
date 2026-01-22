@@ -1,12 +1,35 @@
 **********************************************************
  Standardisering af effort til assessment**;
 **********************************************************;
-/**
-libname san 'c:\ar\sas\sandeel';
-libname age_ssd 'c:\ar\sas\sandeel\ALK.';
+
+*libname san 'c:\ar\sas\sandeel';
+*libname age_ssd 'c:\ar\sas\sandeel\ALK.';
+%let scenario = WKSAND16;
+
+%let path_input = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data;
+%let output_folder = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model;
+%let path_output = &output_folder.\&scenario.;
+
+%let path_ref = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\references;
+
+libname in "&path_input.";
+libname out "&path_output.";
+
+
+PROC IMPORT OUT= WORK.area
+            DATAFILE= "&path_ref./square_to_sandeel_areas_&scenario..csv" 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+	 guessingrows=500;
+RUN;
+
+proc sort data = area;
+by square;
+run;
 
 data s1;
-set cpue_2023;
+set in.cpue_2025;
 julday=fishjulday-days/2;
 if end_date=. then julday=fishjulday+days/2;
 julw=round(julday,7);
@@ -50,7 +73,7 @@ proc sort data=s1;
 by square;
 run;
 
-proc sort data=san.new_sandeel_areas_2022 (drop=id) out=s1b;
+proc sort data=area out=s1b;
 by square;
 run;
 
@@ -148,8 +171,8 @@ set s5;
 *if year=2014 then acorr1=log(0.43);
 corr1=(1*grt_num/200)**bcorr1;
 dayscor1=days*corr1;
-area='  ';
-area= area16;
+*area='  ';
+*area= area16;
 *if area16='1r' then area='1';
 *if area16='2r' then area='2';
 *if area16='3r' then area='3';
@@ -163,8 +186,9 @@ run;
 *by year;
 *run;
 
+
 *************Data fra catch_by_age***;
-proc sort data=age_ssd.Mean_weight_and_n_per_kg_2023 out=t10;
+proc sort data=out.mean_weight_and_n_per_kg_83_25 out=t10;
 by area aar square;
 run;
 
@@ -248,7 +272,7 @@ set t3;
 
 *********************Skift år her*******************;
 
-do year=1983 to 2023 by 1;
+do year=1983 to 2025 by 1;
 output;
 end;
 run;
