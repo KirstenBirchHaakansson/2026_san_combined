@@ -3,9 +3,9 @@
 **********************************************************;
 
 /**/
-%let path_dnk_effort C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\Effort;
-%let path_nor_effort = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\Effort;
-libname out 'C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data';
+%let path_dnk_effort = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\data_for_testing_rtm;
+%let path_nor_effort = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\data_for_testing_rtm;
+libname out 'C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data\testing_rtm';
 
 %macro indl(yy);
 
@@ -120,14 +120,14 @@ run;
 %indl(21);
 %indl(22);
 %indl(23);
-%indl(24);
-%indl(25);
+*%indl(24);
+*%indl(25);
 
 
-data out.cpue_2025;
+data out.cpue_2023;
 set c82 c83 c84 c85 c86 c87 c88 c89 c90 c91 c92 c93 
 c94 c95 c96 c97 c98 c99 c00 c01 c02 c03 c04 c05 c06 c07 c08 c09 c10 c11 
-c12 c13 c14 c15 c16 c17 c18 c19 c20 c21 c22 c23 c24 c25;
+c12 c13 c14 c15 c16 c17 c18 c19 c20 c21 c22 c23; * c24 c25;
 country='   ';
 country='DEN';
  
@@ -240,7 +240,7 @@ input    date $ ices_txt $ cpue grt_int $ ;
 
 run;
 
-
+/*
 data ny24;
 infile "&path_nor_effort.\catch_byVessel_byDay_2024.csv" delimiter=',' 
 MISSOVER DSD lrecl=32767 firstobs=2 ;
@@ -248,10 +248,10 @@ informat date $10. ices_txt $4. grt_int $ 9.  ;
 input    date $ ices_txt $ cpue grt_int $ ;
 
 run;
-
+*/
 
 data out.norway_cpue_ny;
-set ny11 ny12 ny13 ny14 ny15 ny16 ny17 ny18 ny19 ny20 ny21 ny22 ny23 ny24;
+set ny11 ny12 ny13 ny14 ny15 ny16 ny17 ny18 ny19 ny20 ny21 ny22 ny23; *ny24;
 country='   ';
 country='NOR';
 year=1*substr(date,1,4);
