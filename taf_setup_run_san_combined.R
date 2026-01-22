@@ -135,6 +135,23 @@ draft.data(data.files = "Effort",
            file = T,
            append = T)
 
+
+## Additional ----
+### Stuff for testing effort and RTM scripts
+draft.data(data.files = "data_for_testing_rtm",
+           data.scripts = NULL,
+           originator = "Nis",
+           title = "Past RTM output",
+           file = T,
+           append = T)
+
+draft.data(data.files = "outputs_from_mollie",
+           data.scripts = NULL,
+           originator = "Mollie",
+           title = "Effort script and outputs from Mollie",
+           file = T,
+           append = T)
+
 taf.boot()
 
 # mkdir("data")
