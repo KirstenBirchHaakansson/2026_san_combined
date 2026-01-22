@@ -8,12 +8,13 @@
 
 %let path_input = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data;
 %let output_folder = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model;
-%let path_output = &output_folder.\&scenario.;
+%let path_output = &output_folder.\testing_rtm;
 
 %let path_ref = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\references;
 
 libname in "&path_input.";
 libname out "&path_output.";
+libname in_bio 'C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\boot\data\data_for_testing_rtm';
 
 
 PROC IMPORT OUT= WORK.area
@@ -30,6 +31,7 @@ run;
 
 data s1;
 set in.cpue_2025;
+if year gt 2023 then delete; *For testing against Nis' output;
 julday=fishjulday-days/2;
 if end_date=. then julday=fishjulday+days/2;
 julw=round(julday,7);
@@ -188,7 +190,7 @@ run;
 
 
 *************Data fra catch_by_age***;
-proc sort data=out.mean_weight_and_n_per_kg_83_25 out=t10;
+proc sort data=in_bio.mean_weight_and_n_per_kg_83_23 out=t10;
 by area aar square;
 run;
 
