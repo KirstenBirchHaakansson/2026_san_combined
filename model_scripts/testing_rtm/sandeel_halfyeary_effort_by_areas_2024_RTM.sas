@@ -6,7 +6,7 @@
 *libname age_ssd 'c:\ar\sas\sandeel\ALK.';
 %let scenario = WKSAND16;
 
-%let path_input = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data;
+%let path_input = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\data\testing_rtm;
 %let output_folder = C:\Users\kibi\OneDrive - Danmarks Tekniske Universitet\stock_coord_work\san\2026_san_combined\model;
 %let path_output = &output_folder.\testing_rtm;
 
@@ -30,8 +30,7 @@ by square;
 run;
 
 data s1;
-set in.cpue_2025;
-if year gt 2023 then delete; *For testing against Nis' output;
+set in.cpue_2023;
 julday=fishjulday-days/2;
 if end_date=. then julday=fishjulday+days/2;
 julw=round(julday,7);
@@ -274,7 +273,7 @@ set t3;
 
 *********************Skift år her*******************;
 
-do year=1983 to 2025 by 1;
+do year=1983 to 2023 by 1;
 output;
 end;
 run;
@@ -332,7 +331,7 @@ run;
 
 
 proc export data=RTM_2023_area16
-   outfile='c:\ar\tobis\logbooks\RTM_2023_area16.csv'
+   outfile="&path_output.\RTM_2023_area16_testing.csv"
    dbms=csv 
    replace;
 run;
