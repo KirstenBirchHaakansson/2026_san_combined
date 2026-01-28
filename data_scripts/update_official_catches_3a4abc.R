@@ -12,14 +12,14 @@ library(RColorBrewer)
 ## year-2: data from ICES PreliminaryCatchesFor
 ## year-3; data from ICES official catch statistic - not implemented
 
-years <- c(2023:2024)
+years <- c(2024:2025)
 
 path_out <- "./data/"
 
 ##### Update paths and files names below
 
 # Old time series ----
-old <- read.csv("./boot/data/outputs_from_last_year/officialcatches_52_23.csv", sep = ";")
+old <- read.csv("./boot/data/outputs_from_last_year/official_landings_3a4abc_52_24.csv", sep = ",")
 
 unique(old$Year)
 
@@ -27,10 +27,19 @@ head(old)
 
 # year-2 Pre ----
 
-pre_san <- subset(read.csv("./boot/data/preliminary_catch_statistics/nezjpciw3ltd4kmalf1dxgwe175A0.csv", header = F), substr(V3, 1, 4) == "Ammo")
+
+pre_san <- subset(
+  read.csv(
+    "./boot/data/preliminary_catch_statistics/PreliminaryCatchesFor2024.csv",
+    header = F,
+    sep = ";"
+  )
+  ,
+  substr(V3, 1, 4) == "Ammo"
+)
 head(pre_san)
 
-pre_san <- select(pre_san, V1, V3, V4, V5, V6)
+pre_san <- select(pre_san, V1, V4, V5, V6, V7)
 head(pre_san)
 
 colnames(pre_san) <- c("Year", "Species", "Area", "Country", "ton")
@@ -43,11 +52,11 @@ pre_san$ton <- as.numeric(pre_san$ton)
 pre_san$Year <- as.numeric(pre_san$Year)
 unique(pre_san$Area)
 
-pre_san_1 <- subset(pre_san, Area %in%  c("27_4_A", "27_4_B", "27_4_C", "27_3_A", "27_3_A_20", "27_3_A_21"))
-pre_san_1 <- mutate(pre_san_1, Source = "PreliminaryCatchesFor2023")
+pre_san_1 <- subset(pre_san, Area %in%  c("27.4.a", "27.4.b", "27.4.c", "27.3.a", "27.3.a.20", "27.3.a.21"))
+pre_san_1 <- mutate(pre_san_1, Source = "PreliminaryCatchesFor2024")
 
-pre_san_1$Area[pre_san_1$Area %in% c("27_4_A", "27_4_B", "27_4_C")] <- "27.4"
-pre_san_1$Area[pre_san_1$Area %in% c("27_3_A", "27_3_A_20", "27_3_A_21")] <- "27.3.a"
+pre_san_1$Area[pre_san_1$Area %in% c("27.4.a", "27.4.b", "27.4.Cc")] <- "27.4"
+pre_san_1$Area[pre_san_1$Area %in% c("27.3.a", "27.3.a.20", "27.3.a.21")] <- "27.3.a"
 
 pre_san_1$Country[pre_san_1$Country == "DK"] <- "Denmark"
 pre_san_1$Country[pre_san_1$Country == "DE"] <- "Germany"
@@ -100,6 +109,8 @@ unique(old$Year)
 old_sub <- subset(old, !(Year %in% years))
 unique(pre_san_2$Year)
 
+new <- bind_rows(old_sub, pre_san_t)
+
 new_2 <- bind_rows(new, last_4_t)
 
 new_2$Source[is.na(new_2$Source)] <- "To be filled"
@@ -113,7 +124,7 @@ new_2$Total[new_2$Total == 0] <- new_2$Denmark[new_2$Total == 0] +
   new_2$UK[new_2$Total == 0] + new_2$Lithuania[new_2$Total == 0] +
   new_2$France[new_2$Total == 0]
 
-write.csv(new_2, paste0(path_out, "/official_landings_3a4abc_52_", substr(max(years), 3, 4), ".csv"),
+write.csv(new_2, paste0(path_out, "/official_landings_52_", substr(max(years), 3, 4), ".csv"),
           row.names = F)
 # 
 # final_t <- gather(final, key = Country, -Year, -Source, -Species, -Area, value = ton)
