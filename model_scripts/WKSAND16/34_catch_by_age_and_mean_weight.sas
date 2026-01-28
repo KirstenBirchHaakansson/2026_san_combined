@@ -646,10 +646,10 @@ if year=2022 and icesdiv='IIIa' then DKIIIa=11637.3; *Updated 240112 from Prelim
 if year=2022 and icesdiv='IV' then total=154614.653; *Updated 240112 from PreliminaryCatchesFor2022;
 if year=2022 and icesdiv='IV' then denmark=61013.5; *Updated 240112 from PreliminaryCatchesFor2022;
 
-if year=2023 and icesdiv='IIIa' then totIIIa=2171.11; *Updated 250107 from PreliminaryCatchesFor2022;
-if year=2023 and icesdiv='IIIa' then DKIIIa=2171.11; *Updated 250107 from PreliminaryCatchesFor2022;
-if year=2023 and icesdiv='IV' then total=161515.2673; *Updated 250107 from PreliminaryCatchesFor2022;
-if year=2023 and icesdiv='IV' then denmark=116017; *Updated 250107 from PreliminaryCatchesFor2022;
+if year=2023 and icesdiv='IIIa' then totIIIa=2171.11; *Updated 250107 from PreliminaryCatchesFor2023;
+if year=2023 and icesdiv='IIIa' then DKIIIa=2171.11; *Updated 250107 from PreliminaryCatchesFor2023;
+if year=2023 and icesdiv='IV' then total=161515.2673; *Updated 250107 from PreliminaryCatchesFor2023;
+if year=2023 and icesdiv='IV' then denmark=116017; *Updated 250107 from PreliminaryCatchesFor2023;
 
 if year=2024 and icesdiv='IIIa' then totIIIa=47.54; *Updated 260112 from PreliminaryCatchesFor2024;
 if year=2024 and icesdiv='IIIa' then DKIIIa=47.54; *Updated 260112 from PreliminaryCatchesFor2024;
