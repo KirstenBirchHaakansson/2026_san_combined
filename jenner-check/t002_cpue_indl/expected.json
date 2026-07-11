@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-07-11T06:19:30Z",
+  "_captured_run_id": "r_3c8522818d604e5d98fab20fb52bca0b",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: Wrote c25 (9 rows, 40 columns).",
+    "NOTE: Wrote out.cpue_2025 (9 rows, 41 columns).",
+    "NOTE: PROC PRINT completed: 9 observations printed, 10 variables"
+  ],
+  "output_contains": [
+    "DK0012",
+    "60",
+    "0.25"
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}

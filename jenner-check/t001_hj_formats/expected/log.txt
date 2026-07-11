@@ -1,0 +1,90 @@
+
+NOTE: Option OBS changed to 100.
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $spclat defined (6 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT splat_n defined (6 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $spcuk defined (6 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT spuk_n defined (6 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $spcdk defined (5 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT spdk_n defined (5 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT poparea defined (14 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT pwarea defined (8 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT pwareatx defined (8 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $sqr defined (9 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $sqrn defined (9 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $RCTN_LN defined (50 ranges).
+NOTE: FORMAT $RCTN_LT defined (38 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT latf defined (38 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $aarea defined (2 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $aarrea defined (2 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT grtfo defined (7 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT perii defined (5 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT yyr defined (30 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT yyrr defined (30 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT mth defined (12 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $mnth defined (12 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT lgdfmt defined (17 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT lgdfmtb defined (7 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $fopr defined (12 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $rtype defined (41 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $PPareas defined (98 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $PPareasnew defined (92 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $PWareas defined (75 ranges).
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $FFclosed defined (6 ranges).

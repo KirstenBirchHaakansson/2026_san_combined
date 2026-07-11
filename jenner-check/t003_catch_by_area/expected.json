@@ -1,0 +1,20 @@
+{
+  "_captured_at": "2026-07-11T06:22:17Z",
+  "_captured_run_id": "r_7a76e4e7732a44edb08a084b9946133e",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: FORMAT $PPareas defined (98 ranges).",
+    "NOTE: Wrote c1 (8 rows, 12 columns).",
+    "NOTE: Output dataset c2 has 4 observations and 4 variables.",
+    "NOTE: Wrote c2ab (4 rows, 7 columns).",
+    "NOTE: PROC PRINT completed: 4 observations printed, 7 variables"
+  ],
+  "output_contains": [
+    "41F3",
+    "2A",
+    "IV"
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}

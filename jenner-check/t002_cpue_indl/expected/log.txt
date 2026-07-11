@@ -1,0 +1,23 @@
+
+NOTE: Option OBS changed to 100.
+NOTE: Library OUT uses 1 concatenated paths.
+NOTE: DATA c25
+
+NOTE: Processing inline DATALINES (9 lines)
+
+NOTE: Read 9 rows from DATALINES.
+NOTE: Wrote c25 (9 rows, 40 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA out.cpue_2025
+
+
+NOTE: Read 9 rows from c25.
+NOTE: Wrote out.cpue_2025 (9 rows, 41 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC PRINT data=out.cpue_2025
+
+NOTE: PROC PRINT completed: 9 observations printed, 10 variables

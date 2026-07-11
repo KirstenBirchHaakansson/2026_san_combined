@@ -1,0 +1,7 @@
+{
+  "bundle": "t003_catch_by_area",
+  "source_file": "model_scripts/WKSAND16/34_catch_by_age_and_mean_weight.sas",
+  "source_blob_sha": "936208b88038f2b798ad5835717051d060f8fd06",
+  "source_commit": "2e6b0478d97311e521bd977ab52a79e7526adaec",
+  "notes": "The '1989-1993 DK catch-by-square' block from 34_catch_by_age_and_mean_weight.sas: sums landed weight (ton) by year/month/ICES-square, then applies the repo's own $PPareas custom format (from hj_formats.sas, %include'd upstream) to derive the sandeel population area (PP_ar_tx) and ICES division (ICESdiv) for each square, then re-aggregates to area level. Upstream reads the base catch records from in.cpue_2017 (built by data_scripts/CPUEin_*.sas); this bundle substitutes 8 representative DATALINES rows across 1985-1988 with the same columns, keeping the format definition and every transformation line unchanged. Added a closing PROC PRINT (not upstream) to surface the derived area/division mapping as visible output."
+}

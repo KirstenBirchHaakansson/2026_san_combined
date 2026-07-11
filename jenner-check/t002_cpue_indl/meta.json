@@ -1,0 +1,7 @@
+{
+  "bundle": "t002_cpue_indl",
+  "source_file": "data_scripts/CPUEin_2025.sas",
+  "source_blob_sha": "f9df65a658c5db22b25689ccbb655aaf24650a74",
+  "source_commit": "2e6b0478d97311e521bd977ab52a79e7526adaec",
+  "notes": "The %indl(yy) macro from CPUEin_2025.sas: reads a year of Danish sandeel-fishery effort logbook data and derives fishing-trip timing fields (start/end SAS datetimes via DHMS, julian fishing day, fishing week, trip duration in days) plus yield/CPUE unit conversion. Upstream reads via INFILE from a per-year CSV on an institutional OneDrive path; this bundle keeps the macro body and every transformation line-for-line identical and substitutes DATALINES for the INFILE (the shipped runner uploads only script.sas, no input/ files), with 9 representative logbook rows spanning Mar-Nov 2025. Added a PROC PRINT of the derived fields (not upstream, but exercises their transformation logic end to end) to surface real output."
+}
