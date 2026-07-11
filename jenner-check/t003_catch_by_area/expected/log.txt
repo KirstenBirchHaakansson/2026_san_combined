@@ -1,0 +1,50 @@
+
+NOTE: Option OBS changed to 100.
+NOTE: PROC FORMAT library=WORK
+
+NOTE: FORMAT $PPareas defined (98 ranges).
+NOTE: DATA c1
+
+NOTE: Processing inline DATALINES (8 lines)
+
+NOTE: Read 8 rows from DATALINES.
+NOTE: Wrote c1 (8 rows, 12 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC SORT data=c1
+
+NOTE: Read 8 rows from c1.
+NOTE: Wrote c1 (8 rows, 12 columns).
+NOTE: PROC SORT statement used.
+NOTE: PROC MEANS
+NOTE: Output dataset c2 has 4 observations and 4 variables.
+NOTE: PROC MEANS statement used.
+NOTE: DATA c2a
+
+
+NOTE: Read 4 rows from c2.
+NOTE: Wrote c2a (4 rows, 6 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC SORT data=c2a
+
+NOTE: Read 4 rows from c2a.
+NOTE: Wrote c2a (4 rows, 6 columns).
+NOTE: PROC SORT statement used.
+NOTE: PROC MEANS
+NOTE: Output dataset c2aa has 4 observations and 3 variables.
+NOTE: PROC MEANS statement used.
+NOTE: DATA c2ab
+
+NOTE: Stream 1 processed 4 rows, max BY-group size: 1 (O(1) memory verified)
+NOTE: Stream 2 processed 4 rows, max BY-group size: 1 (O(1) memory verified)
+
+NOTE: Wrote c2ab (4 rows, 7 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC PRINT data=c2ab
+
+NOTE: PROC PRINT completed: 4 observations printed, 7 variables

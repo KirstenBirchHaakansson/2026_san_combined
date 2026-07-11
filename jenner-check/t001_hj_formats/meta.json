@@ -1,0 +1,7 @@
+{
+  "bundle": "t001_hj_formats",
+  "source_file": "model_scripts/WKSAND16/hj_formats.sas",
+  "source_blob_sha": "2b8d6651923bfd71f296695924085f0123cb596a",
+  "source_commit": "2e6b0478d97311e521bd977ab52a79e7526adaec",
+  "notes": "PROC FORMAT library for sandeel (tobis) stock assessment: species codes (Latin/UK/Danish names), ICES statistical rectangle -> population-area mappings ($PPareas/$PPareasnew/$PWareas), gear-type codes, length-class bins. Runs byte-identical to upstream, no substitution needed - purely self-contained format definitions with no external data dependency."
+}

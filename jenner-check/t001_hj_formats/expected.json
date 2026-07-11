@@ -1,0 +1,15 @@
+{
+  "_captured_at": "2026-07-11T06:16:51Z",
+  "_captured_run_id": "r_7397fe4fdc784889b6575808794d3111",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: FORMAT $spclat defined (6 ranges).",
+    "NOTE: FORMAT $PPareas defined (98 ranges).",
+    "NOTE: FORMAT $PPareasnew defined (92 ranges).",
+    "NOTE: FORMAT $PWareas defined (75 ranges).",
+    "NOTE: FORMAT $FFclosed defined (6 ranges)."
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}
